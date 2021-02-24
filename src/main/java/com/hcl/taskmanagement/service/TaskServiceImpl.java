@@ -1,48 +1,46 @@
 package com.hcl.taskmanagement.service;
 
+
+import com.hcl.taskmanagement.repository.TaskRepo;
 import com.hcl.taskmanagement.model.Task;
-import com.hcl.taskmanagement.repository.TaskRepository;
+import com.hcl.taskmanagement.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
+	@Autowired
+	TaskRepo repo;
+	@Override
+	public Task saveOrUpdate(Task task) {
+		
+		return repo.save(task);
+	}
 
-    private TaskRepository taskRepository;
-    @Override
-    public List<Task> findTaskByUsername(String username) {
-        return taskRepository.findByUsername(username);
-    }
+	@Override
+	public Optional<Task> findById(int taskid) {
+		
+		return repo.findById (taskid);
+	}
 
-    @Override
-    public Optional<Task> findTaskById(Integer id) {
-        return taskRepository.findById(id);
-    }
+	@Override
+	public List<Task> getAllTasks() {
+	return (List<Task>) repo.findAll();
+	}
 
-    @Override
-    public void updateTask(Task task) {
-        taskRepository.save(task);
+	@Override
+	public List<Task> getAllTasksByUser(User user) {
+		
+		return repo.findAllByUser(user);
+	}
 
-    }
+	@Override
+	public void deleteTask(Task task) {
+		repo.delete(task);
 
-    @Override
-    public void addTask(String username, String Desc, Date startDate, Date endDate, boolean status) {
-        taskRepository.save(new Task(username, Desc, startDate, endDate, status));
+	}
 
-    }
-
-
-    @Override
-    public void deleteTaskById(Integer id){
-        taskRepository.deleteById(id);
-        }
-
-    @Override
-    public void saveTask(Task task) {
-        taskRepository.save(task);
-
-    }
 }

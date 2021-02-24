@@ -1,32 +1,23 @@
 package com.hcl.taskmanagement.model;
 
 
-
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Data
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Entity
-@Table(name = "task")
 public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private String username;
-    private String description;
-    private Date startDate;
-    private Date endDate;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String taskname;
+	private Date startdate;
+	private Date enddate;
+	private String description;
+	private String severity;
+	@ManyToOne
+	private User user;
 
-    public Task(String username, String desc, Date startDate, Date endDate, boolean status) {
-        super();
-        this.username= username;
-        this.description= desc;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
 }
